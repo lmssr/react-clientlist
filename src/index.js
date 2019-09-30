@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Client from "./Client";
 
 import "./styles.css";
 
@@ -31,12 +32,10 @@ class App extends React.Component {
     const id = new Date().getTime();
     const nom = this.state.nouveauClient;
 
-    const client = { id: id, nom: nom };
-
     const clients = this.state.clients.slice();
-    clients.push(client);
+    clients.push({ id, nom });
 
-    this.setState({ clients: clients });
+    this.setState({ clients, nouveauClient: "" });
   };
 
   handleChange = event => {
@@ -49,19 +48,14 @@ class App extends React.Component {
   render() {
     const title = "List of Clients";
 
-    const elements = this.state.clients.map(client => (
-      <li>
-        {client.nom}{" "}
-        <button onClick={() => this.handleDelete(client.id)}>X</button>
-      </li>
-    ));
     return (
       <div>
         <h1>{title}</h1>
-        {this.state.compteur}
-
-        <ul>{elements}</ul>
-
+        <ul>
+          {this.state.clients.map(client => (
+            <Client details={client} onDelete={this.handleDelete} />
+          ))}
+        </ul>
         <form onSubmit={this.handleSubmit}>
           <input
             value={this.state.nouveauClient}
