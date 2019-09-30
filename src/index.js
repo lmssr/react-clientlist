@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Client from "./Client";
-
+import ClientForm from "./ClientForm";
 import "./styles.css";
 
 class App extends React.Component {
@@ -10,10 +10,8 @@ class App extends React.Component {
       { id: 1, nom: "Luc Mosser" },
       { id: 2, nom: "Leo Beltran" },
       { id: 3, nom: "Younes Kamel" },
-      { id: 2, nom: "Leo Beltran" }
-    ],
-
-    nouveauClient: ""
+      { id: 4, nom: "Nicolas Fraisse" }
+    ]
   };
 
   handleDelete = id => {
@@ -26,23 +24,11 @@ class App extends React.Component {
     this.setState({ clients: clients });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-
-    const id = new Date().getTime();
-    const nom = this.state.nouveauClient;
-
+  handleAdd = client => {
     const clients = this.state.clients.slice();
-    clients.push({ id, nom });
+    clients.push(client);
 
-    this.setState({ clients, nouveauClient: "" });
-  };
-
-  handleChange = event => {
-    event.preventDefault();
-    const value = event.currentTarget.value;
-    this.setState({ nouveauClient: value });
-    console.log(event.currentTarget.value);
+    this.setState({ clients });
   };
 
   render() {
@@ -56,15 +42,7 @@ class App extends React.Component {
             <Client details={client} onDelete={this.handleDelete} />
           ))}
         </ul>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            value={this.state.nouveauClient}
-            onChange={this.handleChange}
-            type="text"
-            placeholder="Hello"
-          />
-          <button>Ok</button>
-        </form>
+        <ClientForm onClientAdd={this.handleAdd} />
       </div>
     );
   }
