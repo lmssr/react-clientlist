@@ -5,9 +5,11 @@ class Client extends Component {
     const details = this.props.details;
     const onDelete = this.props.onDelete;
 
-    <li>
-      {details.nom} <button onClick={() => onDelete(details.id)}>X</button>
-    </li>;
+    return (
+      <li>
+        {details.nom} <button onClick={() => onDelete(details.id)}>X</button>
+      </li>
+    );
   }
 }
 
