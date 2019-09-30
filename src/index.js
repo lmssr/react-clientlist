@@ -4,15 +4,15 @@ import ReactDOM from "react-dom";
 import "./styles.css";
 
 class App extends React.Component {
-  clientInput = React.createRef();
-
   state = {
     clients: [
       { id: 1, nom: "Luc Mosser" },
       { id: 2, nom: "Leo Beltran" },
       { id: 3, nom: "Younes Kamel" },
       { id: 2, nom: "Leo Beltran" }
-    ]
+    ],
+
+    nouveauClient: ""
   };
 
   handleDelete = id => {
@@ -27,7 +27,23 @@ class App extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.clientInput.current.value);
+
+    const id = new Date().getTime();
+    const nom = this.state.nouveauClient;
+
+    const client = { id: id, nom: nom };
+
+    const clients = this.state.clients.slice();
+    clients.push(client);
+
+    this.setState({ clients: clients });
+  };
+
+  handleChange = event => {
+    event.preventDefault();
+    const value = event.currentTarget.value;
+    this.setState({ nouveauClient: value });
+    console.log(event.currentTarget.value);
   };
 
   render() {
@@ -47,7 +63,12 @@ class App extends React.Component {
         <ul>{elements}</ul>
 
         <form onSubmit={this.handleSubmit}>
-          <input ref={this.clientInput} type="text" placeholder="Hello" />
+          <input
+            value={this.state.nouveauClient}
+            onChange={this.handleChange}
+            type="text"
+            placeholder="Hello"
+          />
           <button>Ok</button>
         </form>
       </div>
